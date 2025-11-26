@@ -1,0 +1,9 @@
+#! razorpay-app-service.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Service
+metadata:
+    name: razorpay-app-published
+    namespace: sales-savvy
+spec:
+    type: LoadBalancer

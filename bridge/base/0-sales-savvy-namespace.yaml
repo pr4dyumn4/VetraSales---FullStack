@@ -1,0 +1,8 @@
+#! 0-sales-savvy-namespace.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: sales-savvy
+    labels:
+        com.docker.compose.project: sales-savvy

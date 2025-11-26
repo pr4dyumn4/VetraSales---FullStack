@@ -1,0 +1,13 @@
+#! kustomization.yaml
+# Generated code, do not edit
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+    - ../../base
+patches:
+    - path: backend-D:\Sales-Savvy\savvy\src\main\resources\application.properties-persistentVolumeClaim.yaml
+    - path: backend-service.yaml
+    - path: db-mysql_data-persistentVolumeClaim.yaml
+    - path: db-service.yaml
+    - path: frontend-service.yaml
+    - path: razorpay-app-service.yaml

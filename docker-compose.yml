@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  ####################################################################
+  # MySQL DATABASE
+  ####################################################################
+  db:
+    image: mysql:8.0
+    container_name: savvy-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "1864"
+      MYSQL_DATABASE: jan_proj
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p\"${MYSQL_ROOT_PASSWORD}\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  ####################################################################
+  # SPRING BOOT BACKEND (MAIN PROJECT)
+  ####################################################################
+  backend:
+    build: ./savvy
+    container_name: savvy-backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/jan_proj
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "1864"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+      - ./savvy/src/main/resources/application.properties:/app/config/application.properties
+    restart: unless-stopped
+
+  ####################################################################
+  # RAZORPAY GATEWAY PROJECT (SEPARATE PROJECT)
+  ####################################################################
+  razorpay-app:
+    build: ./razorpay-demo
+    container_name: razorpay-backend
+    ports:
+      - "8081:8081"
+    environment:
+      RAZORPAY_KEY_ID: rzp_test_90lAmUtfOQvFlI
+      RAZORPAY_KEY_SECRET: ymeqDPn6k9FOe6qr6pdIZFZh
+    restart: unless-stopped
+
+  ####################################################################
+  # REACT FRONTEND
+  ####################################################################
+  frontend:
+    build: ./sales-savvy-fe
+    container_name: savvy-frontend
+    ports:
+      - "3005:3005"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+####################################################################
+# VOLUMES
+####################################################################
+volumes:
+  mysql_data:

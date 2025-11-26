@@ -1,0 +1,19 @@
+#! razorpay-app-service.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Service
+metadata:
+    name: razorpay-app-published
+    namespace: sales-savvy
+    labels:
+        com.docker.compose.project: sales-savvy
+        com.docker.compose.service: razorpay-app
+spec:
+    selector:
+        com.docker.compose.project: sales-savvy
+        com.docker.compose.service: razorpay-app
+    ports:
+        - name: razorpay-a-8081
+          port: 8081
+          protocol: TCP
+          targetPort: razorpay-a-8081

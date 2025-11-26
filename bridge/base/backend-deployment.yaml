@@ -1,0 +1,49 @@
+#! backend-deployment.yaml
+# Generated code, do not edit
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: backend
+    namespace: sales-savvy
+    labels:
+        com.docker.compose.project: sales-savvy
+        com.docker.compose.service: backend
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            com.docker.compose.project: sales-savvy
+            com.docker.compose.service: backend
+    strategy:
+        type: Recreate
+    template:
+        metadata:
+            labels:
+                com.docker.compose.project: sales-savvy
+                com.docker.compose.service: backend
+                com.docker.compose.network.default: "true"
+        spec:
+            restartPolicy: unless-stopped
+            containers:
+                - name: savvy-backend
+                  image: sales-savvy-backend
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: SPRING_DATASOURCE_PASSWORD
+                      value: "1864"
+                    - name: SPRING_DATASOURCE_URL
+                      value: "jdbc:mysql://db:3306/jan_proj"
+                    - name: SPRING_DATASOURCE_USERNAME
+                      value: "root"
+                    - name: SPRING_JPA_HIBERNATE_DDL_AUTO
+                      value: "update"
+                  ports:
+                    - name: backend-8080
+                      containerPort: 8080
+                  volumeMounts:
+                    - name: app-config-application-properties
+                      mountPath: /app/config/application.properties
+            volumes:
+                - name: app-config-application-properties
+                  hostPath:
+                    path: D:\Sales-Savvy\savvy\src\main\resources\application.properties

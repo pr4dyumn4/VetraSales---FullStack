@@ -1,0 +1,18 @@
+#! frontend-expose.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: Service
+metadata:
+    name: frontend
+    namespace: sales-savvy
+    labels:
+        com.docker.compose.project: sales-savvy
+        com.docker.compose.service: frontend
+spec:
+    selector:
+        com.docker.compose.project: sales-savvy
+        com.docker.compose.service: frontend
+    ports:
+        - name: frontend-3005
+          port: 3005
+          targetPort: frontend-3005

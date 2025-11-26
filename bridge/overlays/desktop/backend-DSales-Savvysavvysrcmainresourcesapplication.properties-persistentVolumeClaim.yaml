@@ -1,0 +1,9 @@
+#! backend-D:\Sales-Savvy\savvy\src\main\resources\application.properties-persistentVolumeClaim.yaml
+# Generated code, do not edit
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: backend-d--sales-savvy-savvy-src-main-resources-application-properties
+    namespace: sales-savvy
+spec:
+    storageClassName: "hostpath" # see docker/desktop-storage-provisioner
